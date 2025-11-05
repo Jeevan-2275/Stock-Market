@@ -1,35 +1,44 @@
 'use client'
 
+import Link from "next/link"
+import { JSX } from "react"
+
 import React from 'react'
 import { NAV_ITEMS } from '@/lib/constants'
-import Link from 'next/link'
+import path from "path"
 import { usePathname } from 'next/navigation'
 
-const NavItems: () => Element = () => {
-  const pathname:String = usePathname()
+const NavItems: () => JSX.Element = () => {
+  const pathname:String = usePathname();
 
-  const isActive = (href: String): Boolean => pathname === href
-  
+  //  const isActive = (path: String) => boolean = (path : string) => {
+  //   if(path ==='/') return pathname === '/';
+  //   return pathname.startsWith(path);
+  //  }
 
-  function callbackfn(value: { href: string; label: string }, index: number, array: { href: string; label: string }[]): ReactNode {
-    throw new Error('Function not implemented.')
-  }
+const isActive = (path: string): boolean => {
+  if (path === '/') return pathname === '/';
+  return pathname.startsWith(path);
+};
+
 
   return (
-        <ul className="flex flex-col sm:flex-row p-2 gap-3 sm:gap-10 font-medium">
-       {NAV_ITEMS.map( callbackfn:({ href , label}) => (
+      <ul className="flex flex-col sm:flex-row p-2 gap-3 sm:gap-10 font-medium">
+        {NAV_ITEMS.map(({ href, title }) => (
         <li key={href} >
         <Link href={href} className={`hover:text-yellow-500 transition-colors ${
           isActive(href) ? 'text-grey-500' : ''
         }`}>
+          {title}
         </Link>
         </li>
        )
 
       
-      )}
-           
-</ul>  )
+      )}                                                      
+      
+      </ul>
+  )
 }
 
 export default NavItems
